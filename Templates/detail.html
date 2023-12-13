@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+<h2>detail page</h2>
+	<hr>
+	<h3>{{news.title}} <!-- <span>{{news.author}}</span>--></h3> 
+	<br>
+	<p>{{news.content}}</p>
+	<hr>
+	<h3>Comments</h3>
+	{%if news.news_comments.exists %}
+		{% for comment in news.news_comments.all %}
+
+			<hr>
+			<div class="container">
+				<div class="row">
+					<div class="col-2">{{ comment.user}}</div>
+					<h2><div class="col-2">{{ comment.comment}}</div></h2>
+				</div>
+			</div>
+
+		{%endfor%}
+
+		{% else %}
+		<h3>No comments yet</h3>
+	{%endif%}
+	
+	<h5>Please leave comment ...</h5>
+
+			{% if request.user.is_authenticated%}
+
+			<form method="post">
+				{%csrf_token%}
+				{{form.as_p}}
+				<button class="btn btn-outline-success" type="submit">Post</button>
+			</form>
+			{%else%}
+			<a href="{% url 'Login' %}">Login</a>
+			{%endif%}
+	
+</body>
+</html>
